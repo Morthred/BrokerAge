@@ -40,12 +40,12 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
+    public ResponseEntity deleteOrder(@PathVariable Long orderId) {
         try {
             orderService.deleteOrder(orderId);
             log.info("Order deleted: {}", orderId);
         } catch (IllegalStateException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.noContent().build();
     }
